@@ -1,86 +1,89 @@
 import { openDB } from 'idb';
 
 const initdb = async () =>
-// We are creating a new database named 'textEditor' which will be using version 1 of the database.
-  openDB('textEditor', 1, {
+// We are creating a new database named 'jate' which will be using version 1 of the database.
+  openDB('jate', 1, {
     // Add our database schema if it has not already been initialized.
     upgrade(db) {
-      if (db.objectStoreNames.contains('textEditor')) {
-        console.log('textEditor database already exists');
+      if (db.objectStoreNames.contains('jate')) {
+        console.log('jate database already exists');
         return;
       }
-      // Create a new object store for the data and give it an key name of 'id' which needs to increment automatically.
-      db.createObjectStore('textEditor', { keyPath: 'id', autoIncrement: true });
-      console.log('textEditor database created');
+      // makes 'id' the keyPath in the newly-created database
+      db.createObjectStore('jate', { keyPath: 'id', autoIncrement: true });
+      console.log('jate database created');
     },
   });
 
 // Export a function we will use to POST to the database.
-export const postDb = async (name, home, cell, email)  => {
-  console.log('Post to the database');
+export const putDb = async (content) => {
+  console.log('Post/PUT to the database');
 
   // Create a connection to the database database and version we want to use.
-  const textEditorDb = await openDB('textEditor', 1);
+  const jateDb = await openDB('jate', 1);
 
   // Create a new transaction and specify the database and data privileges.
-  const tx = textEditorDb.transaction('textEditor', 'readwrite');
+  const tx = jateDb.transaction('jate', 'readwrite');
 
   // Open up the desired object store.
-  const store = tx.objectStore('textEditor');
+  const store = tx.objectStore('jate');
 
   // Use the .add() method on the store and pass in the content.
-  const request = store.add({ name: name, home_phone: home, cell_phone: cell, email: email });
-
+  const request = store.put({ id: 1, value: content });
   // Get confirmation of the request.
   const result = await request;
-  console.log('🚀 - data saved to the database', result);
+  console.log('🚀 - data saved to the jate database', result);
 };
-;
+
+
 
 // Export a function we will use to GET to the database.
 export const getDb = async () => {
   console.log('GET from the database');
 
   // Create a connection to the database database and version we want to use.
-  const textEditorDb = await openDB('textEditor', 1);
+  const jateDb = await openDB('jate', 1);
 
   // Create a new transaction and specify the database and data privileges.
-  const tx = textEditorDb.transaction('textEditor', 'readonly');
+  const tx = jateDb.transaction('jate', 'readonly');
 
   // Open up the desired object store.
-  const store = tx.objectStore('textEditor');
+  const store = tx.objectStore('jate');
 
   // Use the .getAll() method to get all data in the database.
-  const request = store.getAll();
+  const request = store.get(1);
 
   // Get confirmation of the request.
   const result = await request;
   console.log('result.value', result);
-  return result;
-};
+  result
+    ? console.log('Data retrieved from database')
+    : console.log('Data not found in the database.');
+  return result?.value;
+};;
 
 
 // Export a function we will use to DELETE to the database.
-export const deleteDb = async (id) => {
-  console.log('DELETE from the database', id);
+// export const deleteDb = async (id) => {
+  // console.log('DELETE from the database', id);
 
   // Create a connection to the database database and version we want to use.
-  const textEditorDb = await openDB('textEditor', 1);
+  // const jateDb = await openDB('jate', 1);
 
   // Create a new transaction and specify the database and data privileges.
-  const tx = textEditorDb.transaction('textEditor', 'readwrite');
+  // const tx = jateDb.transaction('jate', 'readwrite');
 
   // Open up the desired object store.
-  const store = tx.objectStore('textEditor');
+  // const store = tx.objectStore('jate');
 
   // Use the .delete() method to get all data in the database.
-  const request = store.delete(id);
+  // const request = store.delete(id);
 
   // Get confirmation of the request.
-  const result = await request;
-  console.log('result.value', result);
-  return result?.value;
-};
+//   const result = await request;
+//   console.log('result.value', result);
+//   return result?.value;
+// };
 
 // Start the database.
 initdb();
