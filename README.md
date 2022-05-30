@@ -8,9 +8,9 @@
 ## Usage
     1. Open the heroku link.
 ## Heroku link to view deployed project
-salty-sierra-84913.herokuapp.com
+https://salty-sierra-84913.herokuapp.com
 ## ScreenShot
-![Demo Video](https://github.com/IIMacGyverII/Text-Editor-Web-App/screenshot.png)
+![Demo Video](https://github.com/IIMacGyverII/Text-Editor-Web-App/raw/main/screenshot.png)
 ## Demonstration Video(Click to play)
 [![Demo Video](https://img.youtube.com/vi/9jB4CNF2cQI/0.jpg)](https://www.youtube.com/watch?v=9jB4CNF2cQI)
 ## Credit
